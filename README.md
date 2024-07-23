@@ -8,7 +8,7 @@ In the Command Line, paste the following: `pip install albero` (not yet uploaded
 
 ## Description
 
-Albero is a library that can be used by code editors to easily get syntax highlighting from tree-sitter. It simplifies the process of getting readily usable tokens and only requires a `Language` or `.so` language file to get started.
+Albero is a library that can be used by code editors to easily get syntax highlighting from tree-sitter. It simplifies the process of getting readily usable tokens and only requires a `Language` or `.so` language file along with the languages mapping to get started (some are pre-included with the module).
 
 > **Notes:**
 >  - This project is super early on and will probably be moved to `salve-org` shortly. This originally was created for the main tool `Salve` but that may or may not be split into multiple tools dor simplicity's sake.
