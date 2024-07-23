@@ -115,8 +115,7 @@ class TreeSitterHighlighter:
             tree, self.mappings[self.files[file_name][0]], self.logger
         )
         return_tokens = only_tokens_in_text_range(return_tokens, text_range)
-        # return return_tokens
-        return []
+        return return_tokens
 
     def remove_file(self, file_name: str) -> None:
         if file_name not in self.files:

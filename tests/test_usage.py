@@ -21,7 +21,12 @@ def test_basic_usage():
         "test"
     )  # Trying to use a file not in the system gives an AlberoException
 
-    assert tokens == []
+    assert tokens == [
+        ((1, 0), 3, "Keyword"),
+        ((1, 4), 4, "Name"),
+        ((1, 8), 3, "Punctuation"),
+        ((1, 12), 3, "Operator"),
+    ]
 
 
 def test_file_removal():
@@ -44,7 +49,12 @@ def test_file_removal():
         "python"
     )  # Can be done first but it will already auto-close any files that use it
 
-    assert tokens == []
+    assert tokens == [
+        ((1, 0), 3, "Keyword"),
+        ((1, 4), 4, "Name"),
+        ((1, 8), 3, "Punctuation"),
+        ((1, 12), 3, "Operator"),
+    ]
 
 
 def test_mapping_update():
