@@ -6,68 +6,141 @@ from .misc import AlberoException, normal_text_range
 from .tokens import Token, only_tokens_in_text_range
 from .tree_sitter_funcs import edit_tree, node_to_tokens
 
-trees_and_parsers: dict[str, tuple[Tree, Parser, str]] = {}
+TreeAndParser = tuple[Tree, Parser, str]  # Tree, Parser, code
 
 
 def tree_sitter_highlight(
-    new_code: str,
-    language_str: str,
     logger: Logger,
-    mapping: dict[str, str] | None = None,
-    language_parser: Parser | None = None,
+    tree_and_parser: TreeAndParser,
+    mapping: dict[str, str],
     text_range: tuple[int, int] = (1, -1),
 ) -> list[Token]:
-    tree: Tree
     return_tokens: list[Token]
 
-    if not mapping:
-        # Fallback on the custom implementation
-        raise AlberoException("No mapping provided!")
+    tree, parser, code = tree_and_parser
 
-    split_text, text_range = normal_text_range(new_code, text_range)
+    split_text, text_range = normal_text_range(code, text_range)
 
-    if language_str not in trees_and_parsers:
-        if not language_parser:
-            # We will never get here, the IPC API will deal with these but we need to appease
-            # the static type checkers
-            return []
-
-        tree = language_parser.parse(bytes(new_code, "utf8"))
-        trees_and_parsers[language_str] = (tree, language_parser, new_code)
-        return_tokens = node_to_tokens(tree.root_node, mapping, logger)
-        return_tokens = only_tokens_in_text_range(return_tokens, text_range)
-        return return_tokens
-
-    tree, parser, old_code = trees_and_parsers[language_str]
-    new_tree = edit_tree(old_code, new_code, tree, parser)
-    trees_and_parsers[language_str] = (new_tree, parser, new_code)
-
-    return_tokens = node_to_tokens(new_tree, mapping, logger)
+    return_tokens = node_to_tokens(tree, mapping, logger)
     return_tokens = only_tokens_in_text_range(return_tokens, text_range)
     return return_tokens
 
 
-TreeAndParser = tuple[Tree, Parser, str]  # Tree, Parser, code
-
-
 class TreeSitterHighlighter:
     def __init__(self) -> None:
+        self.languages: dict[str, Language] = {}
         self.files: dict[
             str, tuple[str, TreeAndParser]
         ] = {}  # dict[filename, tuple[language, TreeAndParser]]
         self.mappings: dict[str, dict[str, str]] = {}
         self.logger = getLogger("TreeSitterHighlighter")
+        self.logger.info("Created Highlighter")
 
     def add_language(
         self, language_name: str, language: Language, mapping: dict[str, str]
-    ) -> None: ...
+    ) -> None:
+        self.logger.debug("Adding Language")
+        if language_name in self.languages:
+            self.logger.exception(
+                f"Language {language_name} already an added language"
+            )
+            raise AlberoException(
+                f"Language {language_name} already an added language"
+            )
+
+        self.languages[language_name] = language
+        self.mappings[language_name] = mapping
+        self.logger.info("Added Language")
+
     def update_mapping(
         self, language_name: str, mapping: dict[str, str]
-    ) -> None: ...
-    def add_file(self, file_name: str, language_name: str) -> None: ...
-    def update_file(self, file_name: str, code: str) -> None: ...
-    def get_highlights(self, file_name: str) -> list[Token]:
+    ) -> None:
+        self.logger.debug("Updating mapping")
+        if language_name not in self.languages:
+            self.logger.exception(
+                f"Language {language_name} not an added language"
+            )
+            raise AlberoException(
+                f"Language {language_name} not an added language"
+            )
+
+        self.mappings[language_name] = mapping
+
+    def add_file(self, file_name: str, language_name: str) -> None:
+        if language_name not in self.languages:
+            self.logger.exception(
+                f"Language {language_name} not an added language"
+            )
+            raise AlberoException(
+                f"Language {language_name} not an added language"
+            )
+
+        if file_name in self.files:
+            self.logger.exception(f"File {file_name} already an added file")
+            raise AlberoException(f"File {file_name} already an added file")
+
+        language = self.languages[language_name]
+        parser = Parser(language)
+        blank_tree: Tree = parser.parse(bytes("", "utf-8"))
+        self.files[file_name] = (language_name, (blank_tree, parser, ""))
+
+    def update_file(self, file_name: str, code: str) -> None:
+        if file_name not in self.files:
+            self.logger.exception(f"File {file_name} not an added file")
+            raise AlberoException(f"File {file_name} not an added file")
+
+        old_tree, parser, old_code = self.files[file_name][1]
+
+        new_tree: Tree = edit_tree(old_code, code, old_tree, parser)
+
+        self.files[file_name] = (
+            self.files[file_name][0],
+            (new_tree, parser, code),
+        )
+
+    def get_highlights(
+        self, file_name: str, text_range: tuple[int, int] = (1, -1)
+    ) -> list[Token]:
+        if file_name not in self.files:
+            self.logger.exception(f"File {file_name} not an added file")
+            raise AlberoException(f"File {file_name} not an added file")
+
+        return_tokens: list[Token]
+
+        tree, parser, code = self.files[file_name][1]
+
+        split_text, text_range = normal_text_range(code, text_range)
+
+        return_tokens = node_to_tokens(
+            tree, self.mappings[self.files[file_name][0]], self.logger
+        )
+        return_tokens = only_tokens_in_text_range(return_tokens, text_range)
+        # return return_tokens
         return []
 
-    def remove_file(self, file_name: str) -> None: ...
-    def remove_language(self, language_name: str) -> None: ...
+    def remove_file(self, file_name: str) -> None:
+        if file_name not in self.files:
+            self.logger.exception(f"File {file_name} not an added file")
+            raise AlberoException(f"File {file_name} not an added file")
+
+        self.files.pop(file_name)
+
+    def remove_language(self, language_name: str) -> None:
+        if language_name not in self.languages:
+            self.logger.exception(
+                f"Language {language_name} not an added language"
+            )
+            raise AlberoException(
+                f"Language {language_name} not an added language"
+            )
+
+        self.languages.pop(language_name)
+
+        files: dict[str, tuple[str, TreeAndParser]] = {}
+        for file in self.files:
+            if self.files[file][0] == language_name:
+                continue
+
+            files[file] = self.files[file]
+
+        self.files = files
