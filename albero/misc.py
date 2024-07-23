@@ -25,3 +25,6 @@ def lang_from_so(path: str, name: str) -> Language:
     language_function.restype = c_void_p
     language_ptr = language_function()
     return Language(language_ptr)
+
+
+class AlberoException(Exception): ...  # I don't like the boilerplate either

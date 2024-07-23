@@ -2,7 +2,7 @@ from logging import Logger, getLogger
 
 from tree_sitter import Language, Parser, Tree
 
-from .misc import normal_text_range
+from .misc import AlberoException, normal_text_range
 from .tokens import Token, only_tokens_in_text_range
 from .tree_sitter_funcs import edit_tree, node_to_tokens
 
@@ -22,7 +22,7 @@ def tree_sitter_highlight(
 
     if not mapping:
         # Fallback on the custom implementation
-        raise Exception("No mapping provided!")
+        raise AlberoException("No mapping provided!")
 
     split_text, text_range = normal_text_range(new_code, text_range)
 
@@ -54,7 +54,7 @@ class TreeSitterHighlighter:
     def __init__(self) -> None:
         self.files: dict[
             str, tuple[str, TreeAndParser]
-        ] = {}  # filename, tuple[file lanugage type, TreeAndParser]
+        ] = {}  # dict[filename, tuple[language, TreeAndParser]]
         self.mappings: dict[str, dict[str, str]] = {}
         self.logger = getLogger("TreeSitterHighlighter")
 
@@ -64,9 +64,8 @@ class TreeSitterHighlighter:
     def update_mapping(
         self, language_name: str, mapping: dict[str, str]
     ) -> None: ...
-    def update_file(
-        self, file_name: str, language_name: str, code: str
-    ) -> None: ...
+    def add_file(self, file_name: str, language_name: str) -> None: ...
+    def update_file(self, file_name: str, code: str) -> None: ...
     def get_highlights(self, file_name: str) -> list[Token]:
         return []
 
