@@ -1,1 +1,3 @@
-from tree_sitter_javascript import language as javascript_language  # noqa: F401
+from tree_sitter_javascript import (  # noqa: F401
+    language as javascript_language,
+)

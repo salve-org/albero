@@ -83,7 +83,9 @@ def node_to_tokens(
     return merge_tokens(tokens)
 
 
-def edit_tree(old_code: str, new_code: str, tree: Tree, parser: Parser) -> Tree:
+def edit_tree(
+    old_code: str, new_code: str, tree: Tree, parser: Parser
+) -> Tree:
     if old_code == new_code:
         return tree
 
@@ -113,8 +115,12 @@ def edit_tree(old_code: str, new_code: str, tree: Tree, parser: Parser) -> Tree:
 
     # Calculate byte offsets
     start_byte = sum(len(line) + 1 for line in old_code_lines[:first_diff])
-    old_end_byte = sum(len(line) + 1 for line in old_code_lines[: last_diff_old + 1])
-    new_end_byte = sum(len(line) + 1 for line in new_code_lines[: last_diff_new + 1])
+    old_end_byte = sum(
+        len(line) + 1 for line in old_code_lines[: last_diff_old + 1]
+    )
+    new_end_byte = sum(
+        len(line) + 1 for line in new_code_lines[: last_diff_new + 1]
+    )
 
     # Edit the tree
     tree.edit(
@@ -152,7 +158,8 @@ def token_type_of_test(
         # Check if the tokens are effectively the same
         same_line: bool = test_token[0][0] == new_token[0][0]
         same_col_and_length: bool = (
-            test_token[0][1] == new_token[0][1] and test_token[1] == new_token[1]
+            test_token[0][1] == new_token[0][1]
+            and test_token[1] == new_token[1]
         )
         if not same_line:
             continue
@@ -164,7 +171,8 @@ def token_type_of_test(
         new_token_end: int = new_token[0][1] + new_token[1]
 
         fully_contained: bool = (
-            old_token_end <= new_token_end and test_token[0][1] >= new_token[0][1]
+            old_token_end <= new_token_end
+            and test_token[0][1] >= new_token[0][1]
         )
 
         # We assume there is no partial overlap

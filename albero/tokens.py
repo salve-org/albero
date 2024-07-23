@@ -71,7 +71,9 @@ def merge_tokens(tokens: list[Token]) -> list[Token]:
     return output_tokens
 
 
-def overwrite_tokens(old_tokens: list[Token], new_tokens: list[Token]) -> list[Token]:
+def overwrite_tokens(
+    old_tokens: list[Token], new_tokens: list[Token]
+) -> list[Token]:
     # If there are no new tokens, return the old tokens as they are
     if not new_tokens:
         return old_tokens
@@ -154,7 +156,9 @@ def overwrite_and_merge_tokens(
 ) -> list[Token]:
     merged_old_tokens: list[Token] = merge_tokens(sorted(set(old_tokens)))
     merged_new_tokens: list[Token] = merge_tokens(sorted(set(new_tokens)))
-    output_tokens: list[Token] = overwrite_tokens(merged_old_tokens, merged_new_tokens)
+    output_tokens: list[Token] = overwrite_tokens(
+        merged_old_tokens, merged_new_tokens
+    )
 
     output_tokens = sorted(set(merge_tokens(output_tokens)))
     return output_tokens
