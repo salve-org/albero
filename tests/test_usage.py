@@ -1,6 +1,14 @@
+from sys import platform
+
 from tree_sitter import Language
 
-from albero import Token, TreeSitterHighlighter, get_lang, get_mapping, lang_from_so
+from albero import (
+    Token,
+    TreeSitterHighlighter,
+    get_lang,
+    get_mapping,
+    lang_from_so,
+)
 
 py_lang: Language = get_lang("python")
 mapping: dict[str, str] = get_mapping("python")
@@ -74,5 +82,9 @@ def test_mapping_update():
     )  # Trying to use a file not in the system gives an AlberoException
     assert tokens == []
 
+
 def test_so_file():
-    lang_from_so("./examples/languages-darwin.so", "python")
+    if platform == "darwin":
+        assert isinstance(
+            lang_from_so("./examples/languages-darwin.so", "python"), Language
+        )

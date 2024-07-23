@@ -1,8 +1,8 @@
-
 from tree_sitter import Language
 
-from albero import Token, TreeSitterHighlighter, lang_from_so, get_mapping
+from albero import Token, TreeSitterHighlighter, get_mapping, lang_from_so
 
+# NOTE: This will only work on MacOS as the so file was compiled for it
 py_lang: Language = lang_from_so("./examples/languages-darwin.so", "python")
 mapping: dict[str, str] = get_mapping("python")
 
