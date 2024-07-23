@@ -9,23 +9,6 @@ from .tree_sitter_funcs import edit_tree, node_to_tokens
 TreeAndParser = tuple[Tree, Parser, str]  # Tree, Parser, code
 
 
-def tree_sitter_highlight(
-    logger: Logger,
-    tree_and_parser: TreeAndParser,
-    mapping: dict[str, str],
-    text_range: tuple[int, int] = (1, -1),
-) -> list[Token]:
-    return_tokens: list[Token]
-
-    tree, parser, code = tree_and_parser
-
-    split_text, text_range = normal_text_range(code, text_range)
-
-    return_tokens = node_to_tokens(tree, mapping, logger)
-    return_tokens = only_tokens_in_text_range(return_tokens, text_range)
-    return return_tokens
-
-
 class TreeSitterHighlighter:
     def __init__(self) -> None:
         self.languages: dict[str, Language] = {}
@@ -33,7 +16,7 @@ class TreeSitterHighlighter:
             str, tuple[str, TreeAndParser]
         ] = {}  # dict[filename, tuple[language, TreeAndParser]]
         self.mappings: dict[str, dict[str, str]] = {}
-        self.logger = getLogger("TreeSitterHighlighter")
+        self.logger: Logger = getLogger("TreeSitterHighlighter")
         self.logger.info("Created Highlighter")
 
     def add_language(
