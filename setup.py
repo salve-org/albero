@@ -14,7 +14,9 @@ setup(
     url="https://github.com/Moosems/albero",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=open("requirements.txt", "r+").read().splitlines(keepends=False),
+    install_requires=open("requirements.txt", "r+")
+    .read()
+    .splitlines(keepends=False),
     python_requires=">=3.11",
     license="MIT license",
     classifiers=[
