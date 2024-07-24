@@ -7,11 +7,11 @@ with open("README.md", "r") as file:
 
 setup(
     name="albero",
-    version="0.0.2",
+    version="0.0.3",
     description="Albero is a tool that makes it much easier to use Tree Sitter for your code editors",
     author="Moosems",
     author_email="moosems.j@gmail.com",
-    url="https://github.com/Moosems/albero",
+    url="https://github.com/salve-org/albero",
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=open("requirements.txt", "r+")
