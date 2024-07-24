@@ -7,14 +7,14 @@ with open("README.md", "r") as file:
 
 setup(
     name="albero",
-    version="0.0.1",
+    version="0.0.2",
     description="Albero is a tool that makes it much easier to use Tree Sitter for your code editors",
     author="Moosems",
     author_email="moosems.j@gmail.com",
     url="https://github.com/Moosems/albero",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    install_requires=["beartype", "tree-sitter"],
+    install_requires=open("requirements.txt", "r+").read().splitlines(keepends=False),
     python_requires=">=3.11",
     license="MIT license",
     classifiers=[
