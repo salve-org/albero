@@ -10,6 +10,8 @@ TreeAndParser = tuple[Tree, Parser, str]  # Tree, Parser, code
 
 
 class TreeSitterHighlighter:
+    """A class that makes highlighting with Tree Sitter significantly easier"""
+
     def __init__(self) -> None:
         self.languages: dict[str, Language] = {}
         self.files: dict[

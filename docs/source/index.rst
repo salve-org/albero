@@ -14,4 +14,7 @@ Welcome to ``Albero``'s Documentation! ``Albero`` is a library that can be used 
 
    installation
    example-usage
+   classes
+   variables
+   functions
    examples

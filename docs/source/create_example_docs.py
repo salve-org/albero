@@ -10,6 +10,9 @@ if Path(docs_examples_dir).exists():
 makedirs(docs_examples_dir)
 
 for filename in listdir(examples_dir):
+    if filename.split(".")[-1] != "py":
+        continue
+
     base_name = path.splitext(filename)[0]
     with open(
         path.join(docs_examples_dir, f"{base_name}.rst"), "w"

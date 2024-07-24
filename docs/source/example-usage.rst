@@ -34,9 +34,3 @@ Now that you have ``Albero`` installed, let's try running a simple example that 
     )  # Can be done first but it will already auto-close any files that use it
 
     print(tokens)
-
-.. |br| raw:: html
-
-   <br />
-
-|br|
