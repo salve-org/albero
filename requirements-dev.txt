@@ -1,0 +1,49 @@
+# Normal requirements
+beartype
+tree-sitter
+
+# Languages
+tree-sitter-css
+tree-sitter-wgsl-bevy
+tree-sitter-cpp
+tree-sitter-bash
+tree-sitter-c-sharp
+tree-sitter-odin
+tree-sitter-starlark
+tree-sitter-ruby
+tree-sitter-scss
+tree-sitter-glsl
+tree-sitter-rust
+tree-sitter-go
+tree-sitter-jsdoc
+tree-sitter-json
+tree-sitter-python
+tree-sitter-gstlaunch
+tree-sitter-cuda
+tree-sitter-pymanifest
+tree-sitter-slang
+tree-sitter-javascript
+tree-sitter-typescript
+tree-sitter-arduino
+tree-sitter-java
+tree-sitter-toml
+tree-sitter-html
+tree-sitter-c
+tree-sitter-yaml
+tree-sitter-commonlisp
+tree-sitter-embedded-template
+tree-sitter-glsl
+tree-sitter-php
+
+# Testing
+pytest
+
+# Formatting
+ruff
+isort
+
+# Builds
+setuptools
+wheel
+twine
+build

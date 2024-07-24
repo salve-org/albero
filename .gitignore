@@ -1,0 +1,12 @@
+# Mac stuff
+.DS_Store
+
+# Python
+__pycache__/
+dist/
+build/
+.ruff_cache/
+albero.egg-info/
+
+# Pycharm
+.idea
