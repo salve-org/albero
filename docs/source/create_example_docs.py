@@ -30,5 +30,5 @@ for filename in listdir(examples_dir):
             for line in example_file:
                 rst_file.write(f"    {line}")
         rst_file.write(
-            f"\nSee the file example file `here <{'https://github.com/Moosems/albero/blob/master/examples/' + filename}>`_."
+            f"\nSee the file example file `here <{'https://github.com/salve-org/albero/blob/master/examples/' + filename}>`_."
         )
