@@ -4,7 +4,7 @@ A tool that makes it much easier to use Tree Sitter for your code editors
 
 # Installation
 
-In the Command Line, paste the following: `pip install albero` (not yet uploaded to pypi)
+In the Command Line, paste the following: `pip install albero`
 
 ## Description
 
