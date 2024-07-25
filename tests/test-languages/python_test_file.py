@@ -1,6 +1,6 @@
 from typing import Any
 
-from xyz import abc as efg
+from xyz import abc as efg  # noqa: F401
 
 # Example comment
 
@@ -9,7 +9,7 @@ v = 5.5
 w = []
 x = 5
 y = int("5")
-z = lambda: print
+z = lambda: print  # noqa: E731
 
 if x == 5:
     x += 5 + x
@@ -56,9 +56,9 @@ def example():
     ...
     if x or y:
         pass
-    with open("xyz.foo") as l:
-        assert False == False
-        assert True == True
+    with open("xyz.foo") as l:  # noqa: E741, F841, F401
+        assert False == False  # noqa: E712
+        assert True == True  # noqa: E712
         pass
 
 

@@ -1,5 +1,3 @@
-from sys import platform
-
 from tree_sitter import Language
 
 from albero import Token, TreeSitterHighlighter, get_lang, get_mapping
@@ -25,7 +23,6 @@ def test_basic_usage():
         "test"
     )  # Trying to use a file not in the system gives an AlberoException
 
-    print(tokens)
     assert tokens == [
         ((1, 0), 4, "Keyword"),
         ((1, 5), 6, "Name"),
@@ -37,6 +34,7 @@ def test_basic_usage():
         ((3, 16), 3, "Name"),
         ((3, 20), 2, "Keyword"),
         ((3, 23), 3, "Name"),
+        ((3, 28), 12, "Comment"),
         ((5, 0), 17, "Comment"),
         ((7, 0), 1, "Name"),
         ((7, 2), 1, "Operator"),
@@ -66,6 +64,7 @@ def test_basic_usage():
         ((12, 4), 6, "Keyword"),
         ((12, 10), 1, "Punctuation"),
         ((12, 12), 5, "Name"),
+        ((12, 19), 12, "Comment"),
         ((14, 0), 2, "Keyword"),
         ((14, 3), 1, "Name"),
         ((14, 5), 2, "Operator"),
@@ -200,12 +199,15 @@ def test_basic_usage():
         ((59, 25), 2, "Keyword"),
         ((59, 28), 1, "Name"),
         ((59, 29), 1, "Punctuation"),
+        ((59, 32), 24, "Comment"),
         ((60, 15), 5, "Keyword"),
         ((60, 21), 2, "Operator"),
         ((60, 24), 5, "Keyword"),
+        ((60, 31), 12, "Comment"),
         ((61, 15), 4, "Keyword"),
         ((61, 20), 2, "Operator"),
         ((61, 23), 4, "Keyword"),
+        ((61, 29), 12, "Comment"),
         ((62, 8), 4, "Keyword"),
         ((65, 0), 5, "Keyword"),
         ((65, 6), 3, "Name"),

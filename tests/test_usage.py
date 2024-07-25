@@ -118,6 +118,8 @@ def test_longer_code():
         ((3, 8), 2, "Keyword"),
         ((3, 11), 3, "Name"),
         ((3, 14), 1, "Punctuation"),
+        ((3, 17), 12, "Comment"),
         ((4, 12), 3, "Name"),
         ((4, 15), 2, "Punctuation"),
+        ((4, 19), 12, "Comment"),
     ]
