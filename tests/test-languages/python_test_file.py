@@ -71,3 +71,9 @@ for i in range(x):
     continue
 
 q = {} | {}
+try:
+    pass
+except:
+    pass
+finally:
+    pass

@@ -235,4 +235,13 @@ def test_basic_usage():
         ((73, 4), 2, "Punctuation"),
         ((73, 7), 1, "Operator"),
         ((73, 9), 2, "Punctuation"),
+        ((74, 0), 3, "Keyword"),
+        ((74, 3), 1, "Punctuation"),
+        ((75, 4), 4, "Keyword"),
+        ((76, 0), 6, "Keyword"),
+        ((76, 6), 1, "Punctuation"),
+        ((77, 4), 4, "Keyword"),
+        ((78, 0), 7, "Number"),
+        ((78, 7), 1, "Punctuation"),
+        ((79, 4), 4, "Keyword"),
     ]
