@@ -4,76 +4,86 @@ from xyz import abc as efg  # noqa: F401
 
 # Example comment
 
-u = {"x": "y\f"}
-v = 5.5
-w = []
-x = 5
-y = int("5")
-z = lambda: print  # noqa: E731
+# Variables and literals
+u = {"x": "y\f"}  # String with escape sequence
+v = 5.5  # float
+w = []  # list
+x = 5  # integer
+y = int("5")  # integer from string
+z = lambda: print  # lambda function # noqa: E731
 
-if x == 5:
-    x += 5 + x
-    x -= 5 - x
-    x *= 2 * x
-    x /= 2 / x
-    x **= 2**x
-    if x is not None:
+# Control structures
+if x == 5:  # if statement
+    x += 5 + x  # Addition and compound assignment
+    x -= 5 - x  # Subtraction and compound assignment
+    x *= 2 * x  # Multiplication and compound assignment
+    x /= 2 / x  # Division and compound assignment
+    x **= 2**x  # Exponentiation and compound assignment
+    if x is not None:  # is not
+        pass  # pass statement
+    elif x is None:  # elif and is
         pass
-    elif x is None:
-        pass
-    else:
+    else:  # else
         pass
 
+# match-case statement
 match x:
-    case 5:
+    case 5:  # case
         print("Nice")
-    case _:
+    case _:  # case _
         print("Woah")
 
-while 2 in w:
+# while loop and break statement
+while 2 in w:  # in operator
     break
-if 2 not in w:
+if 2 not in w:  # not in operator
     pass
 
 
-def decorator(arg) -> Any:
-    def wrapper():
-        return arg()
+# Function with decorator
+def decorator(arg) -> Any:  # Function definition and type hint
+    def wrapper():  # Nested function
+        return arg()  # return statement
 
-    return arg
+    return wrapper
 
 
 @decorator
 def example():
-    if x > y:
+    if x > y:  # Greater than
         pass
-    if x >= y:
+    if x >= y:  # Greater than or equal
         pass
-    if x < y:
+    if x < y:  # Less than
         pass
-    if x <= y:
+    if x <= y:  # Less than or equal
         pass
     ...
-    if x or y:
+    if x or y:  # Logical OR
         pass
-    with open("xyz.foo") as l:  # noqa: E741, F841, F401
-        assert False == False  # noqa: E712
+    with open("xyz.foo") as l:  # with statement and as  # noqa: F841, E741
+        assert False == False  # assert statement and equality  # noqa: E712
         assert True == True  # noqa: E712
         pass
 
 
-class foo:
+# Class with method
+class Foo:
     def break_func(self):
-        raise Exception("NO")
+        raise Exception("NO")  # raise statement
 
 
+# for loop and continue statement
 for i in range(x):
     continue
 
-q = {} | {}
+# Dictionary merging (Python 3.9+)
+q = {} | {}  # Dictionary merge operator
+
+# try-except-finally block
 try:
     pass
-except:
+except:  # bare except  # noqa: E722
     pass
-finally:
+finally:  # finally
     pass
