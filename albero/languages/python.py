@@ -37,6 +37,7 @@ python_mapping: dict[str, str] = {
     "*": "Operator",
     "**": "Operator",
     "*=": "Operator",
+    "**=": "Operator",
     "+": "Operator",
     "+=": "Operator",
     "-": "Operator",
