@@ -88,3 +88,38 @@ def test_so_file():
         assert isinstance(
             lang_from_so("./examples/languages-darwin.so", "python"), Language
         )
+
+
+def test_longer_code():
+    highlighter = TreeSitterHighlighter()
+
+    highlighter.add_language("python", py_lang, mapping)
+    highlighter.add_file(
+        "test", "python"
+    )  # Trying to add a file with a language not in the system gives an AlberoException
+    highlighter.update_file(
+        "test", open("tests/test_file_1.py").read()
+    )  # Trying to update a file not in the system gives an AlberoException
+
+    tokens: list[Token] = highlighter.get_highlights(
+        "test"
+    )  # Trying to use a file not in the system gives an AlberoException\
+
+    assert tokens == [
+        ((1, 0), 5, "Keyword"),
+        ((1, 6), 3, "Name"),
+        ((1, 9), 1, "Punctuation"),
+        ((2, 4), 3, "Keyword"),
+        ((2, 8), 3, "Name"),
+        ((2, 11), 2, "Punctuation"),
+        ((2, 14), 2, "Operator"),
+        ((2, 17), 4, "Keyword"),
+        ((2, 21), 1, "Punctuation"),
+        ((3, 8), 2, "Keyword"),
+        ((3, 11), 3, "Name"),
+        ((3, 14), 1, "Punctuation"),
+        ((3, 17), 12, "Comment"),
+        ((4, 12), 3, "Name"),
+        ((4, 15), 2, "Punctuation"),
+        ((4, 19), 12, "Comment"),
+    ]
