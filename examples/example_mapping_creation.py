@@ -2,7 +2,7 @@ from logging import INFO, Logger, basicConfig, getLogger
 
 from tree_sitter import Language
 
-from albero import Token, TreeSitterHighlighter, generic_tokens, get_lang
+from albero import GENERIC_TOKENS, Token, TreeSitterHighlighter, get_lang
 
 # Logging
 basicConfig(
@@ -12,7 +12,7 @@ logger: Logger = getLogger("Main")
 
 # Useful stuff for highlighting
 archaic_lang: Language = get_lang("archaic_language")
-print(generic_tokens)
+print(GENERIC_TOKENS)
 custom_mapping: dict[str, str] = {
     "xyz_tree_sitter_stuff": "token_in_generic_tokens"  # See python mapping in albero source
 }

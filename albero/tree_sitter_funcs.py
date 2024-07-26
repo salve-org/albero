@@ -1,8 +1,7 @@
 from logging import Logger
 
+from token_tools import Token, merge_tokens
 from tree_sitter import Node, Parser, Tree, TreeCursor
-
-from .tokens import Token, merge_tokens
 
 
 def node_to_tokens(
