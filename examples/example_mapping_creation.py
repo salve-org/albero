@@ -2,7 +2,7 @@ from logging import INFO, Logger, basicConfig, getLogger
 
 from tree_sitter import Language
 
-from albero import Token, TreeSitterHighlighter, GENERIC_TOKENS, get_lang
+from albero import GENERIC_TOKENS, Token, TreeSitterHighlighter, get_lang
 
 # Logging
 basicConfig(
