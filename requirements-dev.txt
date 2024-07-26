@@ -1,6 +1,7 @@
 # Normal requirements
 beartype
 tree-sitter
+token_tools
 
 # Languages
 tree-sitter-css
