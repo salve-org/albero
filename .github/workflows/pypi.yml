@@ -1,4 +1,4 @@
-name: Upload salve to Pypi
+name: Upload albero to Pypi
 
 on:
   release:
