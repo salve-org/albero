@@ -77,6 +77,12 @@ def get_lang(language_name: str) -> Language:
 
     return Language(language_functions[language_name]())
 
+def get_lang_func(language_name: str) -> Callable:
+    if language_name not in language_functions:
+        raise Exception("Language not in pre-compiled languages")
+
+    return language_functions[language_name]
+
 
 def get_mapping(language_name: str) -> dict[str, str]:
     if language_name not in language_mappings:
