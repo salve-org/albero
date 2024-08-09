@@ -51,16 +51,16 @@ def remove_file(server: "IPCHighlightServer", request: Request) -> None:
 
 def update_mapping(server: "IPCHighlightServer", request: Request) -> None:
     server.highlighter.update_mapping(
-        request["language_name"], request["mapping"]
-    )  # type: ignore
+        request["language_name"], request["mapping"]  # type: ignore
+    )
 
 
 def get_highlights(
     server: "IPCHighlightServer", request: Request
 ) -> list[Token]:
     return server.highlighter.get_highlights(
-        request["file_name"], request["text_range"]
-    )  # type: ignore
+        request["file_name"], request["text_range"]  # type: ignore
+    )
 
 
 class IPCHighlighter(SimpleClient):
