@@ -88,6 +88,7 @@ java_mapping: dict[str, str] = {
     "character_literal": "String",
     "escape_sequence": "String",
     "string_fragment": "String",
+    "ERROR": "Error",
 }
 
 

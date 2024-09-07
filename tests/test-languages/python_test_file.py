@@ -87,3 +87,5 @@ except:  # bare except  # noqa: E722
     pass
 finally:  # finally
     pass
+
+def unfinished

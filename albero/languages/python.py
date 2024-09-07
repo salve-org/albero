@@ -76,6 +76,7 @@ python_mapping: dict[str, str] = {
     "string_content": "String",
     "string_end": "String",
     "string_start": "String",
+    "ERROR": "Error",
 }
 
 
