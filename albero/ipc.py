@@ -6,8 +6,8 @@ from collegamento import (
     USER_FUNCTION,
     Request,
     Response,
-    SimpleClient,
-    SimpleServer,
+    Client,
+    Server,
 )
 from collegamento.simple_client_server.misc import (
     RequestQueueType,
@@ -51,7 +51,8 @@ def remove_file(server: "IPCHighlightServer", request: Request) -> None:
 
 def update_mapping(server: "IPCHighlightServer", request: Request) -> None:
     server.highlighter.update_mapping(
-        request["language_name"], request["mapping"]  # type: ignore
+        request["language_name"],  # type: ignore
+        request["mapping"],  # type: ignore
     )
 
 
@@ -59,11 +60,12 @@ def get_highlights(
     server: "IPCHighlightServer", request: Request
 ) -> list[Token]:
     return server.highlighter.get_highlights(
-        request["file_name"], request["text_range"]  # type: ignore
+        request["file_name"],  # type: ignore
+        request["text_range"],  # type: ignore
     )
 
 
-class IPCHighlighter(SimpleClient):
+class IPCHighlighter(Client):
     def __init__(self, id_max: int = 15000) -> None:
         self.faux_langs: list[str] = []
         self.faux_files: dict[str, str] = {}  # file, lang
@@ -76,10 +78,10 @@ class IPCHighlighter(SimpleClient):
             "update-mapping": update_mapping,
             "get-highlights": get_highlights,
         }
-        super().__init__(commands, id_max, server_type=IPCHighlightServer)
+        super().__init__(commands, id_max, server_type=IPCHighlightServer)  # type: ignore
 
     def get_response(self) -> Response | None:  # type: ignore
-        return super().get_response("get-highlights")
+        return super().get_response("get-highlights")  # type: ignore
 
     def add_language(
         self,
@@ -88,28 +90,20 @@ class IPCHighlighter(SimpleClient):
         mapping: dict[str, str],
     ) -> None:
         if language_name in self.faux_langs:
-            self.logger.exception(
-                f"Language {language_name} already an added language"
-            )
             raise AlberoException(
                 f"Language {language_name} already an added language"
             )
 
         self.faux_langs.append(language_name)
         super().request(
-            {
-                "command": "add-language",
-                "language_name": language_name,
-                "language": language,
-                "mapping": mapping,
-            }
+            "add-language",
+            language_name=language_name,
+            language=language,
+            mapping=mapping,
         )
 
     def remove_language(self, language_name: str) -> None:
         if language_name not in self.faux_langs:
-            self.logger.exception(
-                f"Language {language_name} not an added language"
-            )
             raise AlberoException(
                 f"Language {language_name} not an added language"
             )
@@ -127,76 +121,51 @@ class IPCHighlighter(SimpleClient):
 
     def add_file(self, file_name: str, language_name: str) -> None:
         if language_name not in self.faux_langs:
-            self.logger.exception(
-                f"Language {language_name} not an added language"
-            )
             raise AlberoException(
                 f"Language {language_name} not an added language"
             )
 
         if file_name in self.faux_files:
-            self.logger.exception(f"File {file_name} already an added file")
             raise AlberoException(f"File {file_name} already an added file")
 
         self.faux_files[file_name] = language_name
         super().request(
-            {
-                "command": "add-file",
-                "file_name": file_name,
-                "language_name": language_name,
-            }
+            "add-file", file_name=file_name, language_name=language_name
         )
 
     def update_file(self, file_name: str, code: str) -> None:
         if file_name not in self.faux_files:
-            self.logger.exception(f"File {file_name} not an added file")
             raise AlberoException(f"File {file_name} not an added file")
 
-        super().request(
-            {"command": "update-file", "file_name": file_name, "code": code}
-        )
+        super().request("update-file", file_name=file_name, code=code)
 
     def remove_file(self, file_name: str) -> None:
         if file_name not in self.faux_files:
-            self.logger.exception(f"File {file_name} not an added file")
             raise AlberoException(f"File {file_name} not an added file")
 
         self.faux_files.pop(file_name)
-        super().request({"command": "remove-file", "file_name": file_name})
+        super().request("remove-file", file_name=file_name)
 
     def update_mapping(
         self, language_name: str, mapping: dict[str, str]
     ) -> None:
-        self.logger.debug("Updating mapping")
         if language_name not in self.faux_langs:
-            self.logger.exception(
-                f"Language {language_name} not an added language"
-            )
             raise AlberoException(
                 f"Language {language_name} not an added language"
             )
 
         super().request(
-            {
-                "command": "update-mapping",
-                "language_name": language_name,
-                "mapping": mapping,
-            }
+            "update-mapping", language_name=language_name, mapping=mapping
         )
 
     def request_highlights(
         self, file_name: str, text_range: tuple[int, int] = (1, -1)
     ) -> None:
         if file_name not in self.faux_files:
-            self.logger.exception(f"File {file_name} not an added file")
             raise AlberoException(f"File {file_name} not an added file")
 
         super().request(
-            {
-                "command": "get-highlights",
-                "file_name": file_name,
-                "text_range": text_range,
-            }
+            "get-highlights", file_name=file_name, text_range=text_range
         )
 
     def get_highlight_response(self) -> list[Token] | None:  # type: ignore
@@ -208,20 +177,18 @@ class IPCHighlighter(SimpleClient):
         return None
 
 
-class IPCHighlightServer(SimpleServer):
+class IPCHighlightServer(Server):
     def __init__(
         self,
-        commands: dict[str, USER_FUNCTION],
+        commands: dict[str, tuple[USER_FUNCTION, bool]],
         response_queue: ResponseQueueType,
         requests_queue: RequestQueueType,
-        logger: Logger,
     ) -> None:
         self.highlighter = TreeSitterHighlighter()
         super().__init__(
             commands,
-            response_queue,
-            requests_queue,
-            logger,
+            response_queue,  # type: ignore
+            requests_queue,  # type: ignore
             [
                 "add-language",
                 "update-mapping",
