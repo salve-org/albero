@@ -28,7 +28,7 @@ def test_basic_usage():
 
     assert tokens == [
         ((1, 0), 3, "Keyword"),
-        ((1, 4), 4, "Name"),
+        ((1, 4), 4, "Identifier"),
         ((1, 8), 3, "Punctuation"),
         ((1, 12), 3, "Operator"),
     ]
