@@ -1,6 +1,7 @@
 # Normal requirements
 beartype
 tree-sitter
+collegamento
 token_tools
 
 # Languages
