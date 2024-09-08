@@ -7,7 +7,7 @@ with open("README.md", "r") as file:
 
 setup(
     name="albero",
-    version="0.1.0",
+    version="0.2.0",
     description="Albero is a tool that makes it much easier to use Tree Sitter for your code editors",
     author="Moosems",
     author_email="moosems.j@gmail.com",
