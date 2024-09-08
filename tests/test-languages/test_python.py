@@ -287,4 +287,7 @@ def test_basic_usage():
         ((88, 7), 1, "Punctuation"),
         ((88, 10), 9, "Comment"),
         ((89, 4), 4, "Keyword"),
+        ((91, 0), 3, "Keyword"),
+        ((91, 0), 14, "Error"),
+        ((91, 4), 10, "Identifier"),
     ]
