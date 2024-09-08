@@ -33,8 +33,8 @@ python_mapping: dict[str, str] = {
     "true": "Keyword",
     "while": "Keyword",
     "with": "Keyword",
-    "@": "Name",
-    "identifier": "Name",
+    "@": "Identifier",
+    "identifier": "Identifier",
     "float": "Number",
     "finally": "Number",
     "integer": "Number",
@@ -52,6 +52,8 @@ python_mapping: dict[str, str] = {
     "/=": "Operator",
     "<": "Operator",
     "<=": "Operator",
+    "%": "Operator",
+    "%=": "Operator",
     "=": "Operator",
     "==": "Operator",
     ">": "Operator",
@@ -74,6 +76,7 @@ python_mapping: dict[str, str] = {
     "string_content": "String",
     "string_end": "String",
     "string_start": "String",
+    "ERROR": "Error",
 }
 
 

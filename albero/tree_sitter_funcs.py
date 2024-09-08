@@ -35,7 +35,7 @@ def node_to_tokens(
 
         visited_nodes.add(node.id)
 
-        if node.child_count != 0:
+        if node.child_count != 0 and node.type != "ERROR":
             continue
 
         if node.type not in mapping:
