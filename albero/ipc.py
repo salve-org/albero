@@ -1,17 +1,14 @@
-from logging import Logger
 from pathlib import Path
 
 from beartype.typing import Callable
 from collegamento import (
     USER_FUNCTION,
-    Request,
-    Response,
     Client,
-    Server,
-)
-from collegamento.simple_client_server.misc import (
+    Request,
     RequestQueueType,
+    Response,
     ResponseQueueType,
+    Server,
 )
 from token_tools import Token
 from tree_sitter import Language

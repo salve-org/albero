@@ -27,7 +27,7 @@ jobs:
       - name: Code Formatting (App)
         run: |
           pip install -r requirements-dev.txt
-          ruff format --check .
+          ruff format --check . --exclude tests/test-languages/python_test_file.py
 
   ruff-check:
     runs-on: ubuntu-latest
@@ -40,4 +40,4 @@ jobs:
       - name: Code Formatting (App)
         run: |
           pip install -r requirements-dev.txt
-          ruff check .
+          ruff check . --exclude tests/test-languages/python_test_file.py

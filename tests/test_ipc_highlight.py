@@ -2,12 +2,7 @@ from time import sleep
 
 from beartype.typing import Callable
 
-from albero import (
-    IPCHighlighter,
-    Token,
-    get_lang_func,
-    get_mapping,
-)
+from albero import IPCHighlighter, Token, get_lang_func, get_mapping
 
 py_lang: Callable = get_lang_func("python")
 mapping: dict[str, str] = get_mapping("python")
