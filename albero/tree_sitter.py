@@ -1,9 +1,9 @@
 from logging import Logger, getLogger
 
+from token_tools import Token, only_tokens_in_text_range
 from tree_sitter import Language, Parser, Tree
 
 from .misc import AlberoException, normal_text_range
-from .tokens import Token, only_tokens_in_text_range
 from .tree_sitter_funcs import edit_tree, node_to_tokens
 
 TreeAndParser = tuple[Tree, Parser, str]  # Tree, Parser, code

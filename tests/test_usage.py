@@ -31,7 +31,7 @@ def test_basic_usage():
 
     assert tokens == [
         ((1, 0), 3, "Keyword"),
-        ((1, 4), 4, "Name"),
+        ((1, 4), 4, "Identifier"),
         ((1, 8), 3, "Punctuation"),
         ((1, 12), 3, "Operator"),
     ]
@@ -59,7 +59,7 @@ def test_file_removal():
 
     assert tokens == [
         ((1, 0), 3, "Keyword"),
-        ((1, 4), 4, "Name"),
+        ((1, 4), 4, "Identifier"),
         ((1, 8), 3, "Punctuation"),
         ((1, 12), 3, "Operator"),
     ]
@@ -107,19 +107,19 @@ def test_longer_code():
 
     assert tokens == [
         ((1, 0), 5, "Keyword"),
-        ((1, 6), 3, "Name"),
+        ((1, 6), 3, "Identifier"),
         ((1, 9), 1, "Punctuation"),
         ((2, 4), 3, "Keyword"),
-        ((2, 8), 3, "Name"),
+        ((2, 8), 3, "Identifier"),
         ((2, 11), 2, "Punctuation"),
         ((2, 14), 2, "Operator"),
         ((2, 17), 4, "Keyword"),
         ((2, 21), 1, "Punctuation"),
         ((3, 8), 2, "Keyword"),
-        ((3, 11), 3, "Name"),
+        ((3, 11), 3, "Identifier"),
         ((3, 14), 1, "Punctuation"),
         ((3, 17), 12, "Comment"),
-        ((4, 12), 3, "Name"),
+        ((4, 12), 3, "Identifier"),
         ((4, 15), 2, "Punctuation"),
         ((4, 19), 12, "Comment"),
     ]

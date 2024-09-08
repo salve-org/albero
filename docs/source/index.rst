@@ -2,7 +2,7 @@
 ``Albero`` Documentation
 ========================
 
-Welcome to ``Albero``'s Documentation! ``Albero`` is a library that can be used by code editors to easily get Tree Sitter based syntax highlighting while doing this with the simplest API I could imagine for this while remaining very powerful . To get started with Albero, visit the :doc:`installation` page!
+Welcome to ``Albero``'s Documentation! ``Albero`` is a library that can be used by code editors to easily get Tree Sitter based syntax highlighting while doing this with the simplest API I could imagine for this while remaining very powerful. To get started with Albero, visit the :doc:`installation` page!
 
 .. note::
 

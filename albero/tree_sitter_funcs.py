@@ -1,8 +1,7 @@
 from logging import Logger
 
+from token_tools import Token, merge_tokens
 from tree_sitter import Node, Parser, Tree, TreeCursor
-
-from .tokens import Token, merge_tokens
 
 
 def node_to_tokens(
@@ -18,67 +17,58 @@ def node_to_tokens(
             break
 
         # Avoid re-processing the same node
-        if node.id not in visited_nodes:
-            visited_nodes.add(node.id)
-
-            if node.child_count == 0:
-                if node.type not in mapping:
-                    logger.warning(
-                        f'Node type "{node.type}" not mapped. Start point: {node.start_point}, end point: {node.end_point}'
-                    )
-                    continue
-
-                start_row, start_col = node.start_point
-                end_row, end_col = node.end_point
-
-                if end_row == start_row:
-                    token = (
-                        (node.start_point[0] + 1, node.start_point[1]),
-                        node.end_point[1] - node.start_point[1],
-                        mapping[node.type],
-                    )
-                    tokens.append(token)
-                    continue
-
-                split_text = node.text.splitlines()  # type: ignore
-                for i, line in enumerate(split_text):
-                    if line.strip() == b"":
-                        continue
-
-                    if i == 0:
-                        token = (
-                            (node.start_point[0] + 1, node.start_point[1]),
-                            len(line),
-                            mapping[node.type],
-                        )
-                        tokens.append(token)
-                        continue
-                    start_col = 0
-                    lstripped_len: int = len(line.lstrip())
-                    start_col: int = len(line) - lstripped_len
-                    token = (
-                        (node.start_point[0] + 1 + i, start_col),
-                        len(
-                            line.strip()
-                        ),  # Account for whitespace after the token if any
-                        mapping[node.type],
-                    )
-                    tokens.append(token)
-
-        # Another child!
-        if cursor.goto_first_child():
-            continue
-
-        # A sibling node!
-        if cursor.goto_next_sibling():
-            continue
-
-        # Go up to parent to look for siblings and possibly other children (this is a depth first search)
-        while cursor.goto_parent():
+        if node.id in visited_nodes:
+            if cursor.goto_first_child():
+                continue
             if cursor.goto_next_sibling():
-                break
-        else:
+                continue
+
+            moved = False
+            while cursor.goto_parent():
+                if cursor.goto_next_sibling():
+                    moved = True
+                    break
+
+            if moved:
+                continue
             break
+
+        visited_nodes.add(node.id)
+
+        if node.child_count != 0 and node.type != "ERROR":
+            continue
+
+        if node.type not in mapping:
+            fail_string = f'Node type "{node.type}" not mapped. Start point: {node.start_point}, end point: {node.end_point}'
+            logger.warning(fail_string)
+            continue
+
+        start_row, start_col = node.start_point
+        end_row, end_col = node.end_point
+
+        if end_row == start_row:
+            token_pos: tuple[int, int] = (start_row + 1, start_col)
+            token_len: int = end_col - start_col
+            token: Token = (token_pos, token_len, mapping[node.type])
+            tokens.append(token)
+            continue
+
+        split_text = node.text.splitlines()  # type: ignore
+        for i, line in enumerate(split_text):
+            if line.strip() == b"":
+                continue
+
+            if i == 0:
+                token_pos: tuple[int, int] = (start_row + 1, start_col)
+                token: Token = (token_pos, len(line), mapping[node.type])
+                tokens.append(token)
+                continue
+
+            token_len: int = len(line.lstrip())
+            start_col: int = len(line) - token_len
+            token_pos: tuple[int, int] = (start_row + 1 + i, start_col)
+            token: Token = (token_pos, token_len, mapping[node.type])
+            tokens.append(token)
 
     return merge_tokens(tokens)
 
