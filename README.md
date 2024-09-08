@@ -1,4 +1,4 @@
-<h1 align="center">Albero v0.1.0</h1>
+<h1 align="center">Albero v0.2.0</h1>
 
 A tool that makes it much easier to use Tree Sitter for your code editors
 
